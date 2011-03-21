@@ -47,7 +47,7 @@ public class ApiCraftListener extends ApiListener {
 					event.setActionTaken(true);
 				}
 			}else {
-				event.setResponse("APIs available for 'serverinfos' : online, players-online, whois");
+				event.setResponse("APIs available for 'serverinfos' : online, players-online, whois, max-players");
 				event.setActionTaken(true);
 			}
 		}
