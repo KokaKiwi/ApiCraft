@@ -10,42 +10,65 @@ public class XMLFormat {
 		return format(o, "response");
 	}
 	
-	public static String format(Object o, String rootName)
+	public static String format(Object o, String rootNodeName)
 	{
+		return format(o, rootNodeName, 0);
+	}
+	
+	public static String format(Object o, String rootNodeName, int indent)
+	{
+		String response = "";
+		response += addTabs(indent) + "<" + rootNodeName + ">\r\n";
 		if(o instanceof Map)
 		{
 			Map<String, Object> datas = (Map<String, Object>) o;
 			Iterator<String> i = datas.keySet().iterator();
-			String response = "<" + rootName + ">\n\r";
+			int counter = 0;
 			while(i.hasNext())
 			{
+				counter++;
 				String name = i.next();
 				Object data = datas.get(name);
-				if(data instanceof String) {
-					response += "<" + name + ">" + data + "</" + name + ">\n\r";
-				}else{
-					response += XMLFormat.format(data, name);
+				if(data instanceof String)
+				{
+					response += addTabs(indent + 1) + "<" + name + ">" + (String) data + "</" + name + ">\r\n";
+				}else {
+					response += format(data, name, indent + 1);
 				}
 			}
-			response += "</" + rootName + ">\n\r";
-			return response;
 		}else if(o instanceof List) {
 			List<Object> datas = (List<Object>) o;
-			Iterator<Object> i = datas.iterator();
-			String response = "";
+			Iterator i = datas.iterator();
+			int counter = 0;
 			while(i.hasNext())
 			{
+				counter++;
 				Object data = i.next();
 				if(data instanceof String)
 				{
-					response += "<" + rootName + ">" + data + "</" + rootName + ">\n\r";
-				}else {
-					response += XMLFormat.format(data);
+					response += addTabs(indent + 1) + "<" + rootNodeName + ">" + (String) data + "</" + rootNodeName + ">\r\n";
+				}else{
+					response += format(data, rootNodeName, indent + 1);
 				}
 			}
-			return response;
 		}else {
-			return (String) o;
+			response += addTabs(indent + 1) + (String) o;
 		}
+		
+		response += addTabs(indent) + "</" + rootNodeName + ">\r\n";
+		
+		return response;
+	}
+
+	private static String addTabs(int indent) {
+		String response = "";
+		if(indent > 0)
+		{
+			for(int k = 0; k < indent; k++)
+			{
+				response += "\t";
+			}
+		}
+		return response;
 	}
 }

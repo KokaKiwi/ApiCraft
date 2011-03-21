@@ -201,7 +201,35 @@ public class NanoHTTPD
 		MIME_PLAINTEXT = "text/plain",
 		MIME_HTML = "text/html",
 		MIME_DEFAULT_BINARY = "application/octet-stream",
-		MIME_XML = "text/xml";
+		MIME_XML = "text/xml",
+		MIME_JSON = "application/json",
+		MIME_CSS = "text/css",
+		MIME_JAVASCRIPT = "text/javascript",
+		MIME_GIF = "image/gif",
+		MIME_JPEG = "image/jpeg",
+		MIME_JPG = "image/jpeg",
+		MIME_PNG = "image/png";
+	
+	/*
+	 * "css		text/css "+
+			"js			text/javascript "+
+			"htm		text/html "+
+			"html		text/html "+
+			"txt		text/plain "+
+			"asc		text/plain "+
+			"gif		image/gif "+
+			"jpg		image/jpeg "+
+			"jpeg		image/jpeg "+
+			"png		image/png "+
+			"mp3		audio/mpeg "+
+			"m3u		audio/mpeg-url " +
+			"pdf		application/pdf "+
+			"doc		application/msword "+
+			"ogg		application/x-ogg "+
+			"zip		application/octet-stream "+
+			"exe		application/octet-stream "+
+			"class		application/octet-stream " );
+	 */
 
 	// ==================================================
 	// Socket & server code
@@ -932,7 +960,7 @@ public class NanoHTTPD
 	/**
 	 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 	 */
-	private static Hashtable theMimeTypes = new Hashtable();
+	protected static Hashtable theMimeTypes = new Hashtable();
 	static
 	{
 		StringTokenizer st = new StringTokenizer(

@@ -1,10 +1,14 @@
 package org.kokakiwi.apicraft.net;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 import org.kokakiwi.apicraft.*;
 import org.kokakiwi.apicraft.events.ApiEvent;
+import org.kokakiwi.apicraft.net.NanoHTTPD.Response;
+import org.kokakiwi.apicraft.utils.JsonFormat;
 import org.kokakiwi.apicraft.utils.PlainFormat;
 import org.kokakiwi.apicraft.utils.XMLFormat;
 
@@ -24,12 +28,16 @@ public class WebServer extends NanoHTTPD {
 		
 		if(event.isActionTaken())
 		{
+			if(event.getResponse() instanceof Integer)
+				event.setResponse(event.getResponse() + "");
 			if(parms.getProperty("format") != null)
 			{
 				String format = parms.getProperty("format");
 				if(format.equalsIgnoreCase("xml") || event.getFormat().equalsIgnoreCase("xml"))
 				{
 					return new Response(HTTP_OK, MIME_XML, XMLFormat.format(event.getResponse()));
+				}else if(format.equalsIgnoreCase("json") || event.getFormat().equalsIgnoreCase("json")) {
+					return new Response(HTTP_OK, MIME_JSON, JsonFormat.format(event.getResponse()));
 				}else {
 					return new Response(HTTP_OK, MIME_PLAINTEXT, PlainFormat.format(event.getResponse()));
 				}
@@ -43,6 +51,8 @@ public class WebServer extends NanoHTTPD {
 				if(format.equalsIgnoreCase("xml"))
 				{
 					return new Response(HTTP_NOTFOUND, MIME_PLAINTEXT, XMLFormat.format("Listener not found"));
+				}else if(format.equalsIgnoreCase("json") || event.getFormat().equalsIgnoreCase("json")) {
+					return new Response(HTTP_OK, MIME_JSON, JsonFormat.format("Listener not found"));
 				}else {
 					return new Response(HTTP_NOTFOUND, MIME_PLAINTEXT, PlainFormat.format("Listener not found"));
 				}

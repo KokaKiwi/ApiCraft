@@ -32,12 +32,22 @@ public class ApiCraftListener extends ApiListener {
 					}
 					event.setResponse(players);
 					event.setActionTaken(true);
-				}else{
-					event.setResponse("API not found.");
+				}else if(event.path[1].equalsIgnoreCase("whois")) {
+					HashMap<String, Object> infos = new HashMap<String, Object>();
+					Player player = event.getPlugin().getServer().getPlayer(event.path[2]);
+					
+					infos.put("pseudo", player.getName());
+					infos.put("displayName", player.getDisplayName());
+					infos.put("health", player.getHealth());
+					
+					event.setResponse(infos);
+					event.setActionTaken(true);
+				}else if(event.path[1].equalsIgnoreCase("max-players")) {
+					event.setResponse(event.getPlugin().getServer().getMaxPlayers());
 					event.setActionTaken(true);
 				}
 			}else {
-				event.setResponse("APIs available for 'serverinfos' : online, players-online");
+				event.setResponse("APIs available for 'serverinfos' : online, players-online, whois");
 				event.setActionTaken(true);
 			}
 		}

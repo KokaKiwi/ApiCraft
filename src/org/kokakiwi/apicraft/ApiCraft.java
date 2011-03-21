@@ -9,6 +9,7 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
+import org.kokakiwi.apicraft.ApiCraftListener;
 import org.kokakiwi.apicraft.net.*;
 
 public class ApiCraft extends JavaPlugin {
@@ -34,6 +35,9 @@ public class ApiCraft extends JavaPlugin {
 		
 		if(!getDataFolder().exists())
 			getDataFolder().mkdirs();
+		
+		if(!new File(getDataFolder(), "cache/").exists())
+			new File(getDataFolder(), "cache/").mkdirs();
 		
 		if(!new File(getDataFolder(), "config.yml").exists())
 		{
